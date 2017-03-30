@@ -2,6 +2,7 @@ package org.roi.itlab.cassandra.person;
 
 import org.mongodb.morphia.geo.Point;
 import org.roi.itlab.cassandra.Poi;
+import org.roi.itlab.cassandra.Route;
 
 import java.time.LocalTime;
 import java.util.*;
@@ -17,12 +18,17 @@ public class Person {
     private LocalTime workEnd;
     private Point home;
     private Point work;
+    private Route toWork;
+    private Route toHome;
     private UUID id;
     private String firstName = "";
     private String lastName = "";
 
     private double skill;
     private double rushFactor;
+
+    private int accidents;
+    private int previousAccidents;
 
     public Person()
     {}
@@ -139,5 +145,37 @@ public class Person {
                 ", skill=" + skill +
                 ", rushFactor=" + rushFactor +
                 '}';
+    }
+
+    public Route getToWork() {
+        return toWork;
+    }
+
+    public void setToWork(Route toWork) {
+        this.toWork = toWork;
+    }
+
+    public Route getToHome() {
+        return toHome;
+    }
+
+    public void setToHome(Route toHome) {
+        this.toHome = toHome;
+    }
+
+    public int getAccidents() {
+        return accidents;
+    }
+
+    public void setAccidents(int accidents) {
+        this.accidents = accidents;
+    }
+
+    public int getPreviousAccidents() {
+        return previousAccidents;
+    }
+
+    public void setPreviousAccidents(int previousAccidents) {
+        this.previousAccidents = previousAccidents;
     }
 }

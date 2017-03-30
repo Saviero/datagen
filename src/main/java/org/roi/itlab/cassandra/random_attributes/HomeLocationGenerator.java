@@ -1,52 +1,21 @@
 package org.roi.itlab.cassandra.random_attributes;
 
-import org.apache.commons.math3.random.*;
-import org.mongodb.morphia.geo.GeoJson;
-import org.roi.itlab.cassandra.Location;
-import org.mongodb.morphia.geo.Point;
+import org.apache.commons.math3.util.Pair;
+import org.roi.itlab.cassandra.PoiLoader;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
 /**
  * Created by Vadim on 19.03.2017.
  */
-public class HomeLocationGenerator {
-    //TODO  refactor list<Local> out
+public class HomeLocationGenerator extends LocationGenerator {
+    private static final String testPois = "./src/test/resources/org/roi/payg/saint-petersburg_russia.csv";
 
-    List<Location> locationList;
-    LocationGenerator generator;
-    org.apache.commons.math3.random.RandomGenerator rng;
+    public static final Pair<Integer, Double> KINDERGARTEN = new Pair<>(20, 200.0);
+    public static final Pair<Integer, Double> SCHOOL = new Pair<>(21, 300.0);
 
-    public HomeLocationGenerator()
-    {
-        locationList = new ArrayList<Location>();
-        rng =   new MersenneTwister(1);
-        load();
-        generator = new LocationGenerator(this.rng, this.locationList);
-    }
 
-    public HomeLocationGenerator(org.apache.commons.math3.random.RandomGenerator rng)
-    {
-        locationList = new ArrayList<Location>();
-        this.rng =   rng;
-        load();
-        generator = new LocationGenerator(this.rng, this.locationList);
-    }
-
-    private void load()
-    {
-        locationList.add(new Location(rng, GeoJson.point(59.95, 30.49), 2000, 6));
-        locationList.add(new Location(rng, GeoJson.point(59.91, 30.48), 2000, 6));
-        locationList.add(new Location(rng, GeoJson.point(59.87, 30.37), 2000, 5));
-        locationList.add(new Location(rng, GeoJson.point(60.00, 30.27), 500, 4));
-        locationList.add(new Location(rng, GeoJson.point(60.05, 30.36), 1500, 7));
-        locationList.add(new Location(rng, GeoJson.point(59.56, 30.30), 2000, 2));
-        locationList.add(new Location(rng, GeoJson.point(59.93, 30.31), 1500, 2));
-    }
-
-    public Point sample()
-    {
-        return generator.sample();
+    public HomeLocationGenerator(org.apache.commons.math3.random.RandomGenerator rng) throws IOException {
+        super(rng, PoiLoader.loadFromCsv(testPois), KINDERGARTEN, SCHOOL);
     }
 }
